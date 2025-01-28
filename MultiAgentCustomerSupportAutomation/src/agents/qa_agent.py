@@ -8,7 +8,7 @@ class QAAgent:
     def __init__(self, company_info):
         self.company_info = company_info
         
-    def create(self):
+    def create(self) -> Agent:
         try:
             return Agent(
                 role="Quality Assurance Specialist",
@@ -22,7 +22,7 @@ class QAAgent:
             logger.error(f"Error creating QA agent: {str(e)}")
             raise
 
-    def _generate_backstory(self):
+    def _generate_backstory(self) -> str:
         return f"""
         As a QA specialist at {self.company_info['name']}, you ensure:
         - Technical accuracy of all responses

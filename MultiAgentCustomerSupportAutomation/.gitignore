@@ -30,6 +30,8 @@ ENV/
 # IDE
 .idea/
 .vscode/
+*.sublime-project
+*.sublime-workspace
 *.swp
 *.swo
 
@@ -40,3 +42,16 @@ ENV/
 .coverage
 .pytest_cache/
 htmlcov/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Coverage
+.coverage
+coverage.xml
+*,cover
+
+# Caches
+*.cache

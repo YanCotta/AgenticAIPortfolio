@@ -19,6 +19,6 @@ COMPANY_INFO = {
 }
 
 LOGGING_CONFIG = {
-    "level": "INFO",
+    "level": os.getenv("LOG_LEVEL", "INFO"),
     "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 }

@@ -8,7 +8,7 @@ class SupportAgent:
     def __init__(self, company_info):
         self.company_info = company_info
         
-    def create(self):
+    def create(self) -> Agent:
         try:
             return Agent(
                 role="Senior Support Representative",
@@ -22,7 +22,7 @@ class SupportAgent:
             logger.error(f"Error creating support agent: {str(e)}")
             raise
 
-    def _generate_backstory(self):
+    def _generate_backstory(self) -> str:
         return f"""
         As a senior support representative at {self.company_info['name']}, 
         you excel at:
