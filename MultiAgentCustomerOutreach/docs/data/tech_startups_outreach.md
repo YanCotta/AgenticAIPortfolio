@@ -19,3 +19,6 @@ Let's explore how we can support [Startup Name]'s growth together.
 
 Best,
 [Your Name]
+
+## Additional Resources
+Feel free to reach out to our team for further assistance.

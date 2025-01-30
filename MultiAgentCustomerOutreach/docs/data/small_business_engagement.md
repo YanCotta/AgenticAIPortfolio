@@ -19,3 +19,6 @@ We would love to discuss how we can be part of your success story.
 
 Warm regards,
 [Your Name]
+
+## Additional Resources
+Feel free to reach out to our team for further assistance.

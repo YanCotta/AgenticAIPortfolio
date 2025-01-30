@@ -7,8 +7,9 @@ warnings.filterwarnings('ignore')
 from crewai import Agent, Task, Crew
 from crewai_tools import DirectoryReadTool, FileReadTool, SerperDevTool, BaseTool
 from utils import get_openai_api_key, pretty_print_result, get_serper_api_key
+from typing import Tuple
 
-def create_agents():
+def create_agents() -> Tuple[Agent, Agent]:
     sales_rep_agent = Agent(
         role="Sales Representative",
         goal="Identify high-value leads that match our ideal customer profile",
@@ -39,7 +40,7 @@ def create_agents():
     
     return sales_rep_agent, lead_sales_rep_agent
 
-def create_tools():
+def create_tools() -> Tuple[BaseTool, BaseTool, BaseTool, BaseTool]:
     directory_read_tool = DirectoryReadTool(directory='./instructions')
     file_read_tool = FileReadTool()
     search_tool = SerperDevTool()
@@ -55,7 +56,10 @@ def create_tools():
     sentiment_analysis_tool = SentimentAnalysisTool()
     return directory_read_tool, file_read_tool, search_tool, sentiment_analysis_tool
 
-def create_tasks(tools, agents):
+def create_tasks(
+    tools: Tuple[BaseTool, BaseTool, BaseTool, BaseTool],
+    agents: Tuple[Agent, Agent]
+) -> Tuple[Task, Task]:
     directory_read_tool, file_read_tool, search_tool, sentiment_analysis_tool = tools
     sales_rep_agent, lead_sales_rep_agent = agents
     
@@ -96,7 +100,7 @@ def create_tasks(tools, agents):
     
     return lead_profiling_task, personalized_outreach_task
 
-def create_crew(agents, tasks):
+def create_crew(agents: Tuple[Agent, Agent], tasks: Tuple[Task, Task]) -> Crew:
     crew = Crew(
         agents=agents,
         tasks=tasks,
@@ -105,7 +109,7 @@ def create_crew(agents, tasks):
     )
     return crew
 
-def main():
+def main() -> None:
     agents = create_agents()
     tools = create_tools()
     tasks = create_tasks(tools, agents)

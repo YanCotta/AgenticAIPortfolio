@@ -1,21 +1,27 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 
-def load_env():
+def load_env() -> None:
     """Load environment variables from a .env file."""
     _ = load_dotenv(find_dotenv())
 
-def get_openai_api_key():
+def get_openai_api_key() -> str:
     """Retrieve the OpenAI API key from environment variables."""
     load_env()
-    return os.getenv("OPENAI_API_KEY")
+    key = os.getenv("OPENAI_API_KEY")
+    if not key:
+        raise ValueError("OPENAI_API_KEY is not set in environment")
+    return key
 
-def get_serper_api_key():
+def get_serper_api_key() -> str:
     """Retrieve the Serper API key from environment variables."""
     load_env()
-    return os.getenv("SERPER_API_KEY")
+    key = os.getenv("SERPER_API_KEY")
+    if not key:
+        raise ValueError("SERPER_API_KEY is not set in environment")
+    return key
 
-def pretty_print_result(result):
+def pretty_print_result(result: str) -> str:
     """
     Format the result by breaking lines longer than 80 characters without splitting words.
     
