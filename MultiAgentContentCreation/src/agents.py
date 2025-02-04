@@ -1,20 +1,33 @@
 import yaml
+import logging
+from pathlib import Path
 from crewai import Agent, Task, Crew
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
 from models import ContentOutput
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def load_configs():
-    files = {
-        'agents': 'config/agents.yaml',
-        'tasks': 'config/tasks.yaml'
-    }
-    
-    configs = {}
-    for config_type, file_path in files.items():
-        with open(file_path, 'r') as file:
-            configs[config_type] = yaml.safe_load(file)
-    
-    return configs['agents'], configs['tasks']
+    try:
+        config_dir = Path('config')
+        files = {
+            'agents': config_dir / 'agents.yaml',
+            'tasks': config_dir / 'tasks.yaml'
+        }
+        
+        configs = {}
+        for config_type, file_path in files.items():
+            if not file_path.exists():
+                raise FileNotFoundError(f"Configuration file not found: {file_path}")
+                
+            with open(file_path, 'r') as file:
+                configs[config_type] = yaml.safe_load(file)
+        
+        return configs['agents'], configs['tasks']
+    except Exception as e:
+        logger.error(f"Error loading configurations: {str(e)}")
+        raise
 
 def create_agents(groq_llm):
     agents_config, _ = load_configs()
@@ -73,8 +86,14 @@ def create_tasks(agents):
             create_content_task, quality_assurance_task)
 
 def create_crew(agents, tasks):
-    return Crew(
-        agents=agents,
-        tasks=tasks,
-        verbose=True
-    )
+    try:
+        crew = Crew(
+            agents=agents,
+            tasks=tasks,
+            verbose=True
+        )
+        logger.info("Crew created successfully")
+        return crew
+    except Exception as e:
+        logger.error(f"Error creating crew: {str(e)}")
+        raise
