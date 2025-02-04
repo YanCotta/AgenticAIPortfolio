@@ -1,6 +1,6 @@
 # MultiAgentResearchSystem
 
-A sophisticated system designed to automate research and content creation tasks using AI-Agents and Multi-AI-Agents.
+A sophisticated system designed to automate research and content creation tasks using AI-Agents and Multi-AI-Agents. Utilizes the CrewAI framework.
 
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -36,6 +36,13 @@ MultiAgentResearchSystem/
 
 ## Overview
 The MultiAgentResearchSystem leverages the crewAI framework to define and manage multiple AI agents, each with specific roles and goals. These agents collaborate to perform complex tasks such as researching topics, writing articles, and editing content, thereby streamlining the content creation process.
+
+## Prerequisites
+
+- Python 3.8 or higher
+- OpenAI API key
+- Serper API key (for documentation search)
+- CrewAI Framework 
 
 ## Features
 - Multi-agent collaboration system using crewAI framework

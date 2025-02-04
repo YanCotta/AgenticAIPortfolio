@@ -1,2 +1,2 @@
 # AgenticAIPortfolio
-A portfolio showcasing my projects related to the engineering and deployment of AI-Agents and Multi-AI-Agents automation systems.
+A portfolio showcasing my projects related to the engineering and deployment of AI-Agents and Multi-AI-Agents automation systems, utilizing numerous different frameworks, such as CrewAI, AutoGen, LangGraph, and others.

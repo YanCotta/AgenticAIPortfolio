@@ -1,6 +1,6 @@
 # Multi-Agent Customer Support Automation
 
-An intelligent customer support automation system built with CrewAI that leverages multiple AI agents to provide comprehensive and accurate customer support.
+An intelligent customer support automation system built with CrewAI that leverages multiple AI agents to provide comprehensive and accurate customer support. This project uses the CrewAI framework as its main tool for development.
 
 ## Features
 
@@ -22,6 +22,7 @@ The system consists of two main agents:
 - Python 3.8 or higher
 - OpenAI API key
 - Serper API key (for documentation search)
+- CrewAI Framework 
 
 ## Installation
 
