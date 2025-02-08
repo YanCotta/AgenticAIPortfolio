@@ -1,6 +1,6 @@
 # AgenticAIPortfolio
 
-A comprehensive portfolio showcasing advanced Multi-Agent AI Systems built with the CrewAI framework. While I have experience with LangGraph and AutoGen, CrewAI's framework offers superior flexibility and completeness for these implementations.
+A comprehensive portfolio showcasing advanced Multi-Agent AI Systems built with the CrewAI, LangGraph and AutoGen frameworks. While I have experience with LangGraph and AutoGen, CrewAI's framework, in my opinion, offers superior flexibility and completeness for these implementations.
 
 ## Overview
 
