@@ -7,9 +7,9 @@ from IPython.display import Image
 
 from autogen import ConversableAgent, AssistantAgent
 
-from financial_analysis.stock_analysis import get_stock_prices, plot_stock_prices
-from financial_analysis.config import settings
-from financial_analysis.logger import get_logger
+from MultiAgentFinancialAnalysis.stock_analysis import get_stock_prices, plot_stock_prices
+from MultiAgentFinancialAnalysis.config import settings
+from MultiAgentFinancialAnalysis.logger import get_logger
 
 logger = get_logger(__name__)
 

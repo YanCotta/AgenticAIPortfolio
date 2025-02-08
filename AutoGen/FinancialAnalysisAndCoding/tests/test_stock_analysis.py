@@ -1,7 +1,7 @@
 """Tests for the stock_analysis module."""
 
 import pandas as pd
-from financial_analysis.stock_analysis import get_stock_prices, plot_stock_prices
+from MultiAgentFinancialAnalysis.stock_analysis import get_stock_prices, plot_stock_prices
 from unittest.mock import patch
 
 def test_get_stock_prices_success(mock_yfinance_download):

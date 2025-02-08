@@ -2,7 +2,7 @@
 
 import pytest
 from unittest.mock import MagicMock
-from financial_analysis.config import Settings
+from MultiAgentFinancialAnalysis.config import Settings
 
 @pytest.fixture
 def mock_settings() -> Settings:

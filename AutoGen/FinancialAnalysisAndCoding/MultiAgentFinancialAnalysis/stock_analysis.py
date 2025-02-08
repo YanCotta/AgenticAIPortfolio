@@ -5,7 +5,7 @@ Module for downloading stock data and generating stock plots.
 import yfinance
 import matplotlib.pyplot as plt
 import pandas as pd
-from financial_analysis.logger import get_logger
+from MultiAgentFinancialAnalysis.logger import get_logger
 
 logger = get_logger(__name__)
 

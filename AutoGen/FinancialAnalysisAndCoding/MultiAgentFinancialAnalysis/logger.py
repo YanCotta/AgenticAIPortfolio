@@ -1,7 +1,7 @@
 """Logging configuration using Loguru."""
 
 from loguru import logger
-from financial_analysis.config import settings  # Import settings
+from MultiAgentFinancialAnalysis.config import settings  # Import settings
 
 logger.add(
     "logs/app.log",  # Path to the log file

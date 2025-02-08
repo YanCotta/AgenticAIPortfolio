@@ -2,7 +2,7 @@
 
 import os
 from dotenv import load_dotenv, find_dotenv
-from financial_analysis.logger import get_logger
+from MultiAgentFinancialAnalysis.logger import get_logger
 
 logger = get_logger(__name__)
 
