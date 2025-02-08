@@ -11,19 +11,14 @@ class EssayController:
         self.response: Dict[str, Any] = {}
         self.max_iterations: int = 10
         self.iterations: List[int] = []
+        self.config: Dict[str, Any] = {}
 
     def run_agent(self, start: bool, topic: str, stop_after: List[str]) -> Tuple[str, str, str, int, int, int]:
         #global partial_message, thread_id,thread
         #global response, max_iterations, iterations, threads
         if start:
-            self.iterations.append(0)
-            config: Dict[str, Any] = {'task': topic,"max_revisions": 2,"revision_number": 0,
-                      'lnode': "", 'planner': "no plan", 'draft': "no draft", 'critique': "no critique", 
-                      'content': ["no content",], 'queries': "no queries", 'count':0}
-            self.thread_id += 1  # new agent, new thread
-            self.threads.append(self.thread_id)
-        else:
-            config = None
+            self.start_new_thread(topic)
+        config: Dict[str, Any] = self.config
         self.thread = {"configurable": {"thread_id": str(self.thread_id)}}
         while self.iterations[self.thread_id] < self.max_iterations:
             self.response = self.graph.invoke(config, self.thread)
@@ -46,6 +41,14 @@ class EssayController:
                 pass
         return
     
+    def start_new_thread(self, topic: str) -> None:
+        self.iterations.append(0)
+        self.config = {'task': topic,"max_revisions": 2,"revision_number": 0,
+                  'lnode': "", 'planner': "no plan", 'draft': "no draft", 'critique': "no critique", 
+                  'content': ["no content",], 'queries': "no queries", 'count':0}
+        self.thread_id += 1  # new agent, new thread
+        self.threads.append(self.thread_id)
+     
     def get_disp_state(self,) -> Tuple[str, str, int, int, int]:
         current_state = self.graph.get_state(self.thread)
         lnode: str = current_state.values["lnode"]
