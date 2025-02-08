@@ -51,7 +51,13 @@ This project demonstrates how to use AutoGen to automate financial analysis task
 2.  Run the `main.py` script:
 
     ```bash
-    python financial_analysis/main.py
+    python -m MultiAgentFinancialAnalysis.main
+    ```
+
+    or
+
+    ```bash
+    python MultiAgentFinancialAnalysis/main.py
     ```
 
 The script will:
@@ -59,14 +65,15 @@ The script will:
 1.  Configure the AutoGen agents and the code executor.
 2.  Download historical stock prices for NVDA and TSLA.
 3.  Generate plots of the stock prices (Year-to-Date).
-4.  Save the plots to the `coding` directory.
+4.  Save the plots to the `coding` directory.  The plots are saved to the `coding` directory.
 
 ## Modules
 
--   `financial_analysis/config.py`: Handles the configuration of the AutoGen agents, code executor, and LLM. Loads the OpenAI API key securely using Pydantic.
--   `financial_analysis/stock_analysis.py`: Contains functions for downloading stock data using `yfinance` and generating stock price plots using `matplotlib`.
--   `financial_analysis/main.py`: Orchestrates the entire workflow, initializing the agents, defining tasks, and displaying the results.
--   `financial_analysis/logger.py`: Configures logging using Loguru.
+-   `config.py`: Handles the configuration of the AutoGen agents, code executor, and LLM. Loads the OpenAI API key securely using Pydantic.
+-   `stock_analysis.py`: Contains functions for downloading stock data using `yfinance` and generating stock price plots using `matplotlib`.
+-   `main.py`: Orchestrates the entire workflow, initializing the agents, defining tasks, and displaying the results.
+-   `logger.py`: Configures logging using Loguru.
+-   `utils.py`: Includes utility functions such as loading environment variables.
 
 ## Error Handling
 

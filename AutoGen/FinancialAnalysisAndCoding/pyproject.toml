@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "financial_analysis"
+name = "MultiAgentFinancialAnalysis"
 version = "0.1.0"
 description = "A financial analysis project using AutoGen."
 authors = [{ name = "Yan", email = "your_email@example.com" }]
@@ -18,7 +18,10 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["financial_analysis"]
+packages = ["MultiAgentFinancialAnalysis"]
+
+[tool.setuptools.entry_points."console_scripts"]
+financial_analysis = "MultiAgentFinancialAnalysis.main:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
