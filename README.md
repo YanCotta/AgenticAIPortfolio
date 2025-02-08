@@ -43,6 +43,17 @@ An intelligent content creation pipeline for generating and optimizing content a
 - Quality assurance and content optimization
 - Configurable agent roles and tasks
 
+### [AgenticEssayWriter](./LangGraph/AgenticEssayWriter)
+An AI-powered essay writing tool that leverages LangGraph for agent orchestration. Features:
+- AI-powered essay generation
+- Agent orchestration using LangGraph
+- Modular design for easy extension
+
+### [FinancialAnalysisAndCoding](./AutoGen/FinancialAnalysisAndCoding)
+This project demonstrates how to use AutoGen to automate financial analysis tasks. Features:
+- Automated stock data fetching
+- Generation of visualizations
+
 ## Technical Requirements
 
 All projects share common prerequisites:
