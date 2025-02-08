@@ -50,20 +50,3 @@ class ResearchAgent(BaseAgent):
             for r in response['results']:
                 content.append(r['content'])
         return content
-
-    async def research_plan_node(self, state: AgentState):
-        queries = await self.generate_queries(state)
-        results = await self._execute_research(queries)
-        return {"content": results,
-                "queries": queries.queries,
-               "lnode": "research_plan",
-                "count": state.count + 1,
-               }
-
-    async def research_critique_node(self, state: AgentState):
-        queries = await self.generate_queries(state, critique=True)
-        results = await self._execute_research(queries)
-        return {"content": results,
-               "lnode": "research_critique",
-                "count": state.count + 1,
-        }

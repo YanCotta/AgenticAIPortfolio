@@ -21,14 +21,3 @@ class CriticAgent(BaseAgent):
             "lnode": "reflect",
             "count": state.count + 1,
         }
-
-    async def reflection_node(self, state: AgentState):
-        messages = [
-            SystemMessage(content=self.REFLECTION_PROMPT), 
-            HumanMessage(content=state['draft'])
-        ]
-        response = await self.model.ainvoke(messages)
-        return {"critique": response.content,
-               "lnode": "reflect",
-                "count": state.count + 1,
-        }

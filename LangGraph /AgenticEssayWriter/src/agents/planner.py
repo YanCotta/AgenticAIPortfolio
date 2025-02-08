@@ -26,14 +26,3 @@ class PlannerAgent(BaseAgent):
             "lnode": "planner",
             "count": state.count + 1
         }
-
-    async def plan_node(self, state: AgentState):
-        messages = [
-            SystemMessage(content=self.PLAN_PROMPT), 
-            HumanMessage(content=state['task'])
-        ]
-        response = await self.model.ainvoke(messages)
-        return {"plan": response.content,
-               "lnode": "planner",
-                "count": state.count + 1,
-               }
