@@ -1,5 +1,6 @@
-from typing import TypedDict, Annotated, List
 from pydantic import BaseModel
+from typing import List, Optional, Annotated
+import operator
 
 class AgentState(TypedDict):
     """Core state management."""
@@ -14,6 +15,13 @@ class AgentState(TypedDict):
     max_revisions: int
     steps: Annotated[int, operator.add]
 
-class Queries(BaseModel):
-    """Search query structure."""
-    queries: List[str]
+class AgentState(BaseModel):
+    task: str
+    plan: Optional[str] = None
+    draft: Optional[str] = None
+    critique: Optional[str] = None
+    content: List[str] = []
+    revision_number: int = 1
+    max_revisions: int = 3
+    lnode: str = ""
+    count: Annotated[int, operator.add] = 0
