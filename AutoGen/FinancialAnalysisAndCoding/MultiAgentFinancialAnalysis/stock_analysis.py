@@ -2,19 +2,20 @@
 Module for downloading stock data and generating stock plots.
 """
 
-import yfinance
+import yfinance as yf
 import matplotlib.pyplot as plt
 import pandas as pd
+from typing import List, Union
 from MultiAgentFinancialAnalysis.logger import get_logger
 
 logger = get_logger(__name__)
 
-def get_stock_prices(stock_symbols: str or list, start_date: str, end_date: str) -> pd.DataFrame:
+def get_stock_prices(stock_symbols: Union[str, List[str]], start_date: str, end_date: str) -> pd.DataFrame:
     """
     Retrieves historical stock prices for the given symbols within the specified date range.
 
     Args:
-        stock_symbols (str or list): A string or list of stock symbols (e.g., "NVDA" or ["NVDA", "TSLA"]).
+        stock_symbols (Union[str, List[str]]): A string or list of stock symbols (e.g., "NVDA" or ["NVDA", "TSLA"]).
         start_date (str): The start date for the data in "YYYY-MM-DD" format.
         end_date (str): The end date for the data in "YYYY-MM-DD" format.
 
@@ -23,11 +24,19 @@ def get_stock_prices(stock_symbols: str or list, start_date: str, end_date: str)
                           Returns an empty DataFrame if no data is found or an error occurs.
     """
     try:
-        stock_data = yfinance.download(stock_symbols, start=start_date, end=end_date)
+        stock_data = yf.download(stock_symbols, start=start_date, end=end_date)
         if stock_data.empty:
             logger.warning(f"No data found for symbols: {stock_symbols}")
             return pd.DataFrame()
-        return stock_data["Close"]
+
+        # Adjust to handle both single and multiple stock symbols
+        if isinstance(stock_symbols, str):
+            stock_data = stock_data[["Close"]]
+            stock_data.columns = [stock_symbols]  # Rename the column to the stock symbol
+        else:
+            stock_data = stock_data["Close"]
+
+        return stock_data
     except Exception as e:
         logger.error(f"Error fetching stock data for {stock_symbols}: {e}")
         return pd.DataFrame()

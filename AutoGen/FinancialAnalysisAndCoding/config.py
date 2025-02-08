@@ -3,44 +3,40 @@ Module for configuring the agents and the code executor.
 """
 
 import os
-from dotenv import load_dotenv, find_dotenv
 from autogen import ConversableAgent, AssistantAgent
 from autogen.coding import LocalCommandLineCodeExecutor
+from MultiAgentFinancialAnalysis.utils import get_openai_api_key
+from MultiAgentFinancialAnalysis.logger import get_logger, configure_logger
 
-def load_env():
-    """Loads environment variables from a .env file."""
-    _ = load_dotenv(find_dotenv())
+logger = get_logger(__name__)
 
-def get_openai_api_key():
+class Settings:
     """
-    Retrieves the OpenAI API key from the environment variables.
-
-    Raises:
-        ValueError: If the OPENAI_API_KEY is not found in the environment variables.
-
-    Returns:
-        str: The OpenAI API key.
+    Settings class for the financial analysis application.
     """
-    load_env()
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-    if not openai_api_key:
-        raise ValueError("OPENAI_API_KEY not found in environment variables.  Please set it in a .env file.")
-    return openai_api_key
+    def __init__(self):
+        self.openai_api_key = get_openai_api_key()
+        self.work_dir = "coding"
+        self.timeout = 60
+        self.log_level = "INFO"
+        configure_logger(self.log_level)  # Initialize logger here
+
+settings = Settings()
 
 def configure_llm():
     """Configures the language model with the OpenAI API key."""
     try:
-        openai_api_key = get_openai_api_key()
+        openai_api_key = settings.openai_api_key
         llm_config = {
             "model": "gpt-4-turbo",
             "api_key": openai_api_key,
         }
         return llm_config
     except ValueError as e:
-        print(f"Error configuring LLM: {e}")
-        return None  # Or raise the exception, depending on desired behavior
+        logger.error(f"Error configuring LLM: {e}")
+        return None
 
-def configure_code_executor(work_dir="coding", timeout=60, functions=None):
+def configure_code_executor(work_dir=settings.work_dir, timeout=settings.timeout, functions=None):
     """Configures the code executor with specified working directory, timeout, and functions."""
     if functions is None:
         functions = []
@@ -51,11 +47,11 @@ def configure_code_executor(work_dir="coding", timeout=60, functions=None):
     )
     return executor
 
-def configure_agents(executor, llm_config):
+def configure_agents(executor):
     """Configures the AutoGen agents with the provided executor and language model configuration."""
+    llm_config = configure_llm()
     if llm_config is None:
-        print("Warning: LLM configuration is None. Agents may not function correctly.")
-        # Consider raising an exception or returning default agents
+        logger.warning("LLM configuration is None. Agents may not function correctly.")
 
     code_executor_agent = ConversableAgent(
         name="code_executor_agent",
