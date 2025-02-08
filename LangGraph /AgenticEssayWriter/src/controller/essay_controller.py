@@ -1,5 +1,8 @@
 from typing import List, Dict, Any, Tuple
 import gradio as gr
+from ..utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 class EssayController:
     def __init__(self, graph: Any):
@@ -21,7 +24,12 @@ class EssayController:
         config: Dict[str, Any] = self.config
         self.thread = {"configurable": {"thread_id": str(self.thread_id)}}
         while self.iterations[self.thread_id] < self.max_iterations:
-            self.response = self.graph.invoke(config, self.thread)
+            try:
+                self.response = self.graph.invoke(config, self.thread)
+            except Exception as e:
+                logger.exception(f"Error during graph invocation: {e}")
+                yield "Error occurred. Check logs.", "", "", self.thread_id, 0, 0
+                return
             self.iterations[self.thread_id] += 1
             self.partial_message += str(self.response)
             self.partial_message += f"\n------------------\n\n"

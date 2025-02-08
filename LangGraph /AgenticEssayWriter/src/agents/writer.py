@@ -1,5 +1,8 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from ..models.schema import AgentState
+from ..utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 class WriterAgent(BaseAgent):
     def __init__(self, settings, model):
@@ -12,19 +15,28 @@ class WriterAgent(BaseAgent):
                               "{content}")
 
     async def execute(self, state: AgentState) -> dict:
-        content = "\n\n".join(state['content'] or [])
-        user_message = HumanMessage(
-            content=f"{state['task']}\n\nHere is my plan:\n\n{state['plan']}")
-        messages = [
-            SystemMessage(
-                content=self.WRITER_PROMPT.format(content=content)
-            ),
-            user_message
+        try:
+            content = "\n\n".join(state['content'] or [])
+            user_message = HumanMessage(
+                content=f"{state['task']}\n\nHere is my plan:\n\n{state['plan']}")
+            messages = [
+                SystemMessage(
+                    content=self.WRITER_PROMPT.format(content=content)
+                ),
+                user_message
             ]
-        response = await self.model.ainvoke(messages)
-        return {
-            "draft": response.content, 
-            "revision_number": state.get("revision_number", 1) + 1,
-            "lnode": "generate",
-            "count": state.count + 1,
-        }
+            response = await self.model.ainvoke(messages)
+            return {
+                "draft": response.content, 
+                "revision_number": state.get("revision_number", 1) + 1,
+                "lnode": "generate",
+                "count": state.count + 1
+            }
+        except Exception as e:
+            logger.exception(f"Error during writer execution: {e}")
+            return {
+                "draft": "Error occurred. Check logs.",
+                "revision_number": state.get("revision_number", 1) + 1,
+                "lnode": "generate",
+                "count": state.count + 1
+            }

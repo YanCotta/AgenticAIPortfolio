@@ -10,6 +10,9 @@ from ..agents.critic import CriticAgent
 from langchain_openai import ChatOpenAI
 from typing import List, Dict, Tuple, Any
 from ..controller.essay_controller import EssayController
+from ..utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 class EssayWriterUI:
     def __init__(self, state_manager: StateManager, settings: Settings):
@@ -51,8 +54,12 @@ class EssayWriterUI:
         state = await self.state_manager.get_state("main")
         state.task = topic
         # Implementation of essay generation workflow
-        essay_state = await self.essay_workflow.generate_essay(topic)
-        return essay_state.draft
+        try:
+            essay_state = await self.essay_workflow.generate_essay(topic)
+            return essay_state.draft
+        except Exception as e:
+            logger.exception(f"Error during essay generation: {e}")
+            return "An error occurred during essay generation. Please check the logs."
 
 import time
 
@@ -70,7 +77,11 @@ class GradioUI:
     def run_agent(self, start: bool, topic: str, stop_after: List[str]) -> Tuple[str, str, str, int, int, int]:
         if start:
             self.controller.start_new_thread(topic)
-        return self.controller.run_agent(start, topic, stop_after)
+        try:
+            yield from self.controller.run_agent(start, topic, stop_after)
+        except Exception as e:
+            logger.exception(f"Error during agent execution: {e}")
+            yield "Error occurred. Check logs.", "", "", self.controller.thread_id, 0, 0
 
     def get_disp_state(self) -> Tuple[str, str, int, int, int]:
         return self.controller.get_disp_state()
