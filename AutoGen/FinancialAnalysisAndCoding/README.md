@@ -1,6 +1,6 @@
-# Financial Analysis and Coding with AutoGen
+# Financial Analysis with AutoGen
 
-This project demonstrates how to use AutoGen to automate financial analysis and coding tasks, specifically fetching stock data and generating visualizations.
+This project demonstrates how to use AutoGen to automate financial analysis tasks, specifically fetching stock data and generating visualizations.
 
 ## Prerequisites
 
@@ -10,6 +10,8 @@ This project demonstrates how to use AutoGen to automate financial analysis and 
 -   matplotlib
 -   python-dotenv
 -   pandas
+-   pydantic
+-   loguru
 
 ## Installation
 
@@ -31,6 +33,7 @@ This project demonstrates how to use AutoGen to automate financial analysis and 
 3.  Install the dependencies:
 
     ```bash
+    pip install -e .
     pip install -r requirements.txt
     ```
 
@@ -39,7 +42,8 @@ This project demonstrates how to use AutoGen to automate financial analysis and 
     ```
     OPENAI_API_KEY=YOUR_OPENAI_API_KEY
     ```
-    **Important:**  Never commit your `.env` file to version control.  It contains sensitive information.
+
+    **Important:** Never commit your `.env` file to version control. It contains sensitive information.
 
 ## Usage
 
@@ -47,7 +51,7 @@ This project demonstrates how to use AutoGen to automate financial analysis and 
 2.  Run the `main.py` script:
 
     ```bash
-    python main.py
+    python financial_analysis/main.py
     ```
 
 The script will:
@@ -59,9 +63,10 @@ The script will:
 
 ## Modules
 
--   `config.py`:  Handles the configuration of the AutoGen agents, code executor, and LLM.  Loads the OpenAI API key securely.
--   `stock_analysis.py`: Contains functions for downloading stock data using `yfinance` and generating stock price plots using `matplotlib`.
--   `main.py`: Orchestrates the entire workflow, initializing the agents, defining tasks, and displaying the results.
+-   `financial_analysis/config.py`: Handles the configuration of the AutoGen agents, code executor, and LLM. Loads the OpenAI API key securely using Pydantic.
+-   `financial_analysis/stock_analysis.py`: Contains functions for downloading stock data using `yfinance` and generating stock price plots using `matplotlib`.
+-   `financial_analysis/main.py`: Orchestrates the entire workflow, initializing the agents, defining tasks, and displaying the results.
+-   `financial_analysis/logger.py`: Configures logging using Loguru.
 
 ## Error Handling
 
@@ -72,9 +77,7 @@ The code includes error handling for:
 -   Empty stock data.
 -   Plot saving errors.
 
-## Notes
+## Running Tests
 
--   The first time you run the script, AutoGen may download necessary components, which may take a few minutes.
--   The generated plots are saved in the `coding` directory.
--   This project provides a basic example of using AutoGen for financial analysis.  You can extend it to perform more complex tasks, such as analyzing financial statements, predicting stock prices, or building trading strategies.
+To run the tests, use the following command:
 
