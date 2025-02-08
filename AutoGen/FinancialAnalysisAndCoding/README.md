@@ -1,90 +1,153 @@
-# Financial Analysis with AutoGen
+# Automated Financial Analysis Using AutoGen Multi-Agent System
 
-This project demonstrates how to use AutoGen to automate financial analysis tasks, specifically fetching stock data and generating visualizations.
+## Project Overview
+This project demonstrates the implementation of a sophisticated multi-agent system using Microsoft's AutoGen framework to perform automated financial analysis. The system leverages multiple AI agents to collaboratively analyze stock market data, specifically focusing on NVIDIA (NVDA) and Tesla (TSLA) stocks, and generates insightful visualizations.
 
-## Prerequisites
+## Technical Architecture
 
--   Python 3.9+ (Recommended)
--   AutoGen
--   yfinance
--   matplotlib
--   python-dotenv
--   pandas
--   pydantic
--   loguru
+### Core Components
+1. **Multi-Agent System**
+   - Code Executor Agent: Handles code execution and environment interactions
+   - Code Writer Agent: Generates and optimizes analysis code
+   - Both agents communicate via AutoGen's conversation protocols
 
-## Installation
+2. **Key Modules**
+   - `stock_analysis.py`: Core financial data processing and visualization
+   - `config.py`: Agent configuration and system settings management
+   - `main.py`: Orchestration and workflow management
+   - `logger.py`: Comprehensive logging system using Loguru
+   - `utils.py`: Environmental configuration and utility functions
 
-1.  Clone the repository:
+3. **Testing Infrastructure**
+   - Comprehensive test suite using pytest
+   - Mock implementations for external services
+   - Coverage for both unit and integration tests
 
-    ```bash
-    git clone <repository_url>
-    cd AgenticAIPortfolio/AutoGen/FinancialAnalysisAndCoding
-    ```
+## Technical Requirements
 
-2.  Create a virtual environment (recommended):
+### System Requirements
+- Python 3.9 or higher
+- Git for version control
+- Unix-based OS recommended (Linux/macOS), Windows supported
 
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Linux/macOS
-    venv\Scripts\activate  # On Windows
-    ```
+### Key Dependencies
+- AutoGen: Multi-agent orchestration
+- yfinance: Financial data retrieval
+- pandas: Data manipulation
+- matplotlib: Data visualization
+- python-dotenv: Environment management
+- pydantic: Data validation
+- loguru: Advanced logging
 
-3.  Install the dependencies:
+## Installation & Setup
 
-    ```bash
-    pip install -e .
-    pip install -r requirements.txt
-    ```
+1. **Clone Repository**
+   ```bash
+   git clone <repository_url>
+   cd AgenticAIPortfolio/AutoGen/FinancialAnalysisAndCoding
+   ```
 
-4.  Create a `.env` file in the project root with your OpenAI API key:
+2. **Virtual Environment Setup**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Unix-based systems
+   # or
+   venv\Scripts\activate     # Windows
+   ```
 
-    ```
-    OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-    ```
+3. **Install Dependencies**
+   ```bash
+   pip install -e .
+   pip install -r requirements.txt
+   ```
 
-    **Important:** Never commit your `.env` file to version control. It contains sensitive information.
+4. **Environment Configuration**
+   ```bash
+   # Create .env file with:
+   OPENAI_API_KEY=your_api_key_here
+   ```
 
-## Usage
+## Project Structure
 
-1.  Ensure your OpenAI API key is set up correctly in the `.env` file.
-2.  Run the `main.py` script:
+```
+MultiAgentFinancialAnalysis/
+├── MultiAgentFinancialAnalysis/
+│   ├── __init__.py
+│   ├── config.py          # System configuration
+│   ├── logger.py          # Logging setup
+│   ├── main.py           # Application entry point
+│   ├── stock_analysis.py  # Financial analysis logic
+│   └── utils.py          # Utility functions
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py       # Test configurations
+│   ├── test_multiagent.py
+│   └── test_stock_analysis.py
+├── logs/                 # Generated log files
+└── coding/              # Generated visualizations
+```
 
-    ```bash
-    python -m MultiAgentFinancialAnalysis.main
-    ```
+## Implementation Details
 
-    or
+### Agent Configuration
+- Utilizes AutoGen's ConversableAgent and AssistantAgent
+- Custom code executor configuration for secure code execution
+- Robust error handling and logging
 
-    ```bash
-    python MultiAgentFinancialAnalysis/main.py
-    ```
+### Financial Analysis Features
+- Real-time stock data retrieval
+- YTD price analysis for NVDA and TSLA
+- Automated visualization generation
+- Comparative stock performance analysis
 
-The script will:
+### Data Visualization
+- Stock price trends
+- YTD gains comparison
+- Interactive matplotlib plots
+- Automated save functionality
 
-1.  Configure the AutoGen agents and the code executor.
-2.  Download historical stock prices for NVDA and TSLA.
-3.  Generate plots of the stock prices (Year-to-Date).
-4.  Save the plots to the `coding` directory.  The plots are saved to the `coding` directory.
+## Usage Examples
 
-## Modules
+1. **Basic Usage**
+   ```bash
+   python -m MultiAgentFinancialAnalysis.main
+   ```
 
--   `config.py`: Handles the configuration of the AutoGen agents, code executor, and LLM. Loads the OpenAI API key securely using Pydantic.
--   `stock_analysis.py`: Contains functions for downloading stock data using `yfinance` and generating stock price plots using `matplotlib`.
--   `main.py`: Orchestrates the entire workflow, initializing the agents, defining tasks, and displaying the results.
--   `logger.py`: Configures logging using Loguru.
--   `utils.py`: Includes utility functions such as loading environment variables.
+2. **Output**
+   - Generates two visualization files:
+     - `ytd_stock_gains.png`: Year-to-Date gains comparison
+     - `stock_prices_YTD_plot.png`: Price trend analysis
 
-## Error Handling
+## Testing
 
-The code includes error handling for:
+```bash
+# Run all tests
+pytest
 
--   Missing OpenAI API key.
--   Failed stock data retrieval.
--   Empty stock data.
--   Plot saving errors.
+# Run with coverage
+pytest --cov=MultiAgentFinancialAnalysis
+```
 
-## Running Tests
+## Error Handling & Logging
 
-To run the tests, use the following command:
+The system implements comprehensive error handling for:
+- API authentication failures
+- Data retrieval issues
+- File I/O operations
+- Agent communication errors
 
+Logs are:
+- Automatically rotated at 10MB
+- Retained for one week
+- Compressed for storage efficiency
+- Thread-safe for concurrent operations
+
+## Future Enhancements
+- Additional financial indicators
+- Extended historical analysis
+- Portfolio optimization features
+- Real-time market alerts
+- Enhanced visualization options
+
+## License
+MIT license.
