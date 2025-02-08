@@ -1,0 +1,5 @@
+autogen==0.2.14
+python-dotenv==1.0.1
+yfinance==0.2.36
+matplotlib==3.8.3
+pandas==2.2.1
