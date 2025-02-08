@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  multi-agent-system:
+    build: .
+    container_name: multi_agent_system
+    volumes:
+      - .:/app
+    environment:
+      - OPENAI_API_KEY=your_api_key_here
+    command: ["python", "main.py"]
