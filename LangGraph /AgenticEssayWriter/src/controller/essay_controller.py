@@ -17,8 +17,6 @@ class EssayController:
         self.config: Dict[str, Any] = {}
 
     def run_agent(self, start: bool, topic: str, stop_after: List[str]) -> Tuple[str, str, str, int, int, int]:
-        #global partial_message, thread_id,thread
-        #global response, max_iterations, iterations, threads
         if start:
             self.start_new_thread(topic)
         config: Dict[str, Any] = self.config
@@ -37,15 +35,11 @@ class EssayController:
             lnode,nnode,_,rev,acount = self.get_disp_state()
             yield self.partial_message,lnode,nnode,self.thread_id,rev,acount
             config = None #need
-            #print(f"run_agent:{lnode}")
             if not nnode:  
-                #print("Hit the end")
                 return
             if lnode in stop_after:
-                #print(f"stopping due to stop_after {lnode}")
                 return
             else:
-                #print(f"Not stopping on lnode {lnode}")
                 pass
         return
     
@@ -63,7 +57,6 @@ class EssayController:
         acount: int = current_state.values["count"]
         rev: int = current_state.values["revision_number"]
         nnode: str = current_state.next
-        #print  (lnode,nnode,self.thread_id,rev,acount)
         return lnode,nnode,self.thread_id,rev,acount
     
     def get_state(self,key: str) -> gr.Textbox:
@@ -86,9 +79,7 @@ class EssayController:
             return ""  
     
     def update_hist_pd(self,) -> gr.Dropdown:
-        #print("update_hist_pd")
         hist: List[str] = []
-        # curiously, this generator returns the latest first
         for state in self.graph.get_state_history(self.thread):
             if state.metadata['step'] < 1:
                 continue
@@ -115,9 +106,7 @@ class EssayController:
              This copies an old state to a new current state. 
         '''
         thread_ts: str = hist_str.split(":")[-1]
-        #print(f"copy_state from {thread_ts}")
         config: Dict[str, Any] = self.find_config(thread_ts)
-        #print(config)
         state = self.graph.get_state(config)
         self.graph.update_state(self.thread, state.values, as_node=state.values['lnode'])
         new_state = self.graph.get_state(self.thread)  #should now match
@@ -130,11 +119,9 @@ class EssayController:
         return lnode,nnode,new_thread_ts,rev,count
     
     def update_thread_pd(self,) -> gr.Dropdown:
-        #print("update_thread_pd")
         return gr.Dropdown(label="choose thread", choices=self.threads, value=self.thread_id,interactive=True)
     
     def switch_thread(self,new_thread_id: int) -> None:
-        #print(f"switch_thread{new_thread_id}")
         self.thread = {"configurable": {"thread_id": str(new_thread_id)}}
         self.thread_id = new_thread_id
         return 

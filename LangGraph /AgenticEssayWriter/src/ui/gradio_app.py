@@ -71,7 +71,6 @@ class GradioUI:
         self.critic = critic
         self.controller = EssayController(graph)
         self.share = share
-        #self.sdisps = {} #global    
         self.demo: gr.Blocks = self.create_interface()
 
     def run_agent(self, start: bool, topic: str, stop_after: List[str]) -> Tuple[str, str, str, int, int, int]:
