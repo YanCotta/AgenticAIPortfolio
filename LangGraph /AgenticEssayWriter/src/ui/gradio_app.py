@@ -2,11 +2,24 @@ import gradio as gr
 from ..utils.state import StateManager
 from ..config import Settings
 import os
+from ..workflow.essay_workflow import EssayWorkflow
+from ..agents.planner import PlannerAgent
+from ..agents.researcher import ResearchAgent
+from ..agents.writer import WriterAgent
+from ..agents.critic import CriticAgent
+from langchain_openai import ChatOpenAI
 
 class EssayWriterUI:
     def __init__(self, state_manager: StateManager, settings: Settings):
         self.state_manager = state_manager
         self.settings = settings
+        self.model = ChatOpenAI(model=settings.MODEL_NAME, temperature=0)
+        self.research_service = ResearchService(settings)
+        self.planner = PlannerAgent(settings, self.model)
+        self.researcher = ResearchAgent(settings, self.research_service, self.model)
+        self.writer = WriterAgent(settings, self.model)
+        self.critic = CriticAgent(settings, self.model)
+        self.essay_workflow = EssayWorkflow(self.planner, self.researcher, self.writer, self.critic)
         
     def create_interface(self) -> gr.Blocks:
         with gr.Blocks() as interface:
@@ -36,7 +49,8 @@ class EssayWriterUI:
         state = await self.state_manager.get_state("main")
         state.task = topic
         # Implementation of essay generation workflow
-        return "Generated essay would appear here"
+        essay_state = await self.essay_workflow.generate_essay(topic)
+        return essay_state.draft
 
 import time
 
@@ -115,7 +129,7 @@ class writer_gui( ):
         if "content" in current_values.values:
             content = current_values.values["content"]
             lnode,nnode,thread_id,rev,astep = self.get_disp_state()
-            new_label = f"last_node: {lnode}, thread_id: {self.thread_id}, rev: {rev}, step: {astep}"
+            new_label = f"last_node: {lnode}, thread_id: {thread_id}, rev: {rev}, step: {astep}"
             return gr.update(label=new_label, value="\n\n".join(item for item in content) + "\n\n")
         else:
             return ""  
