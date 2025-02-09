@@ -77,7 +77,9 @@ class GradioUI:
         if start:
             self.controller.start_new_thread(topic)
         try:
-            yield from self.controller.run_agent(start, topic, stop_after)
+            for output in self.controller.run_agent(start, topic, stop_after):
+                # output is a tuple: (live_output, lnode, nnode, thread_id, rev, acount)
+                yield *output  # Yield all elements of the tuple
         except Exception as e:
             logger.exception(f"Error during agent execution: {e}")
             yield "Error occurred. Check logs.", "", "", self.controller.thread_id, 0, 0
@@ -177,6 +179,7 @@ class GradioUI:
                         thread_pd = gr.Dropdown(choices=self.controller.threads, interactive=True, label="select thread", min_width=120, scale=0)
                         step_pd = gr.Dropdown(choices=['N/A'], interactive=True, label="select step", min_width=160, scale=1)
                 live = gr.Textbox(label="Live Agent Output", lines=5, max_lines=5)
+                progress_bar = gr.Progress(label="Essay Progress")
         
                 sdisps: List[gr.Textbox] = [topic_bx, lnode_bx, nnode_bx, threadid_bx, revision_bx, count_bx, step_pd, thread_pd]
                 thread_pd.input(self.switch_thread, [thread_pd], None).then(
@@ -184,13 +187,14 @@ class GradioUI:
                 step_pd.input(self.copy_state, [step_pd], None).then(
                     fn=updt_disp, inputs=None, outputs=sdisps)
                 gen_btn.click(vary_btn, gr.Number("secondary", visible=False), gen_btn).then(
-                    fn=self.run_agent, inputs=[gr.Number(True, visible=False), topic_bx, stop_after], outputs=[live], show_progress=True).then(
+                    fn=self.run_agent, inputs=[gr.Number(True, visible=False), topic_bx, stop_after], 
+                    outputs=[live, lnode_bx, nnode_bx, threadid_bx, revision_bx, count_bx], show_progress=True).then(
                     fn=updt_disp, inputs=None, outputs=sdisps).then(
                     vary_btn, gr.Number("primary", visible=False), gen_btn).then(
                     vary_btn, gr.Number("primary", visible=False), cont_btn)
                 cont_btn.click(vary_btn, gr.Number("secondary", visible=False), cont_btn).then(
                     fn=self.run_agent, inputs=[gr.Number(False, visible=False), topic_bx, stop_after], 
-                    outputs=[live]).then(
+                    outputs=[live, lnode_bx, nnode_bx, threadid_bx, revision_bx, count_bx], show_progress=True).then(
                     fn=updt_disp, inputs=None, outputs=sdisps).then(
                     vary_btn, gr.Number("primary", visible=False), cont_btn)
         
