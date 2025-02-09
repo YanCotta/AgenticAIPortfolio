@@ -27,6 +27,7 @@ A sophisticated AI-powered research and content creation platform leveraging Cre
    - Technical accuracy verification
    - Style consistency
    - Final polishing
+   - Deep investigation capability (if requested)
 
 ### Support Systems
 
@@ -35,6 +36,8 @@ A sophisticated AI-powered research and content creation platform leveraging Cre
   - API key handling
   - Text formatting
   - Error logging
+- **Research Storage** (`src/research_storage.py`)
+  - FAISS-based vector database for efficient research data retrieval.
 
 ## 🛠 Technical Stack
 
@@ -45,6 +48,7 @@ A sophisticated AI-powered research and content creation platform leveraging Cre
   - langchain_community==0.0.29
   - pydantic>=2.0.0
   - python-dotenv>=0.19.0
+  - faiss-cpu
 
 ## 📦 Project Structure
 
@@ -57,11 +61,13 @@ MultiAgentResearchSystem/
 │   │   └── editor.py          # Content editing agent
 │   ├── utils/
 │   │   └── helpers.py         # Utility functions
+│   ├── research_storage.py    # Research storage module
 │   └── main.py               # System orchestration
 ├── tests/                    # Comprehensive test suite
 │   ├── test_agents.py       # Agent functionality tests
 │   ├── test_utils.py        # Utility function tests
-│   └── test_content_system.py # Integration tests
+│   ├── test_content_system.py # Integration tests
+│   └── test_performance.py  # Performance tests
 └── requirements.txt         # Project dependencies
 ```
 
@@ -153,6 +159,7 @@ pytest
 pytest tests/test_agents.py
 pytest tests/test_utils.py
 pytest tests/test_content_system.py
+pytest tests/test_performance.py
 ```
 
 ## 📊 Output Format
@@ -180,6 +187,13 @@ AGENT_CONFIG = {
     "model": "gpt-3.5-turbo",
     "temperature": 0.7,
     "max_tokens": 1500
+}
+```
+
+### Research Configuration
+```python
+RESEARCH_CONFIG = {
+    "MAX_RESEARCH_DEPTH": 5
 }
 ```
 
