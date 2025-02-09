@@ -14,10 +14,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-<img src="https://your-banner-image-url.png" alt="AgenticAI Portfolio Banner" width="800px"/>
-
-</div>
-
 ---
 
 ## 🎯 Portfolio Overview
