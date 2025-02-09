@@ -32,6 +32,12 @@ This system demonstrates sophisticated implementation of autonomous agents worki
    - Skill-based allocation
    - Capacity planning
 
+4. **Scheduler Agent**
+    - Project scheduling
+    - Resource constraint management
+    - Gantt chart integration
+    - Critical path analysis
+
 ### Data Models
 
 - **TaskEstimate**

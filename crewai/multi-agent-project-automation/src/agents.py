@@ -1,6 +1,7 @@
 import yaml
 from crewai import Agent, Task
 from .models import ProjectPlan
+from .agents.scheduler_agent import SchedulerAgent
 
 def load_configs():
     files = {
@@ -29,6 +30,10 @@ def create_agents_and_tasks():
     resource_allocation_agent = Agent(
         config=agents_config['resource_allocation_agent']
     )
+
+    scheduler_agent = SchedulerAgent(
+        config=agents_config['scheduler_agent']
+    ).agent
     
     # Create Tasks
     tasks = [
@@ -44,9 +49,13 @@ def create_agents_and_tasks():
             config=tasks_config['resource_allocation'],
             agent=resource_allocation_agent,
             output_pydantic=ProjectPlan
+        ),
+        Task(
+            config=tasks_config['scheduling'],
+            agent=scheduler_agent
         )
     ]
     
-    agents = [project_planning_agent, estimation_agent, resource_allocation_agent]
+    agents = [project_planning_agent, estimation_agent, resource_allocation_agent, scheduler_agent]
     
     return agents, tasks

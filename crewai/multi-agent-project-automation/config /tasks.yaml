@@ -45,3 +45,14 @@ resource_allocation:
     responsible for each task in the {project_type} project, along with
     start and end dates. Your final output MUST also include a summary
     explaining the rationale behind each allocation decision.
+
+scheduling:
+  description: >
+    Develop a comprehensive project schedule for the {project_type}
+    project, taking into account resource constraints, task
+    dependencies, and critical paths.
+  expected_output: >
+    A detailed project schedule that includes task start and end dates,
+    resource allocation, and a Gantt chart visualization. Your final
+    output MUST include a summary of the critical path and any
+    potential risks to the project timeline.
