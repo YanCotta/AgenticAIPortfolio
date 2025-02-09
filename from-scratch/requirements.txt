@@ -1,0 +1,5 @@
+openai>=0.27.0
+python-docx>=0.8.11
+PyPDF2>=3.0.1
+beautifulsoup4>=4.11.1
+ebooklib>=0.6.6
