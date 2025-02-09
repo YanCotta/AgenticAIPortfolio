@@ -9,3 +9,21 @@ services:
     environment:
       - OPENAI_API_KEY=your_api_key_here
     command: ["python", "main.py"]
+    ports:
+      - "8000:8000"   # Expose monitoring/health endpoint
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
