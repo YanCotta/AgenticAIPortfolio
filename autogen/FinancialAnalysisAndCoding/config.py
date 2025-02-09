@@ -8,6 +8,7 @@ from autogen.coding import LocalCommandLineCodeExecutor
 from MultiAgentFinancialAnalysis.utils import get_openai_api_key
 from MultiAgentFinancialAnalysis.logger import get_logger, configure_logger
 from MultiAgentFinancialAnalysis.src.execution.code_executor import DockerCodeExecutor
+from MultiAgentFinancialAnalysis.src.agents.analysis_agent import AnalysisAgent
 
 logger = get_logger(__name__)
 
@@ -80,4 +81,11 @@ def configure_agents(executor):
         human_input_mode="NEVER",
     )
 
-    return code_executor_agent, code_writer_agent
+    analysis_agent = AnalysisAgent(
+        name="analysis_agent",
+        llm_config=llm_config,
+        plugins=["fundamentals", "news_sentiment", "social_media_signals"],
+        human_input_mode="NEVER",
+    )
+
+    return code_executor_agent, code_writer_agent, analysis_agent
