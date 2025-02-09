@@ -44,3 +44,5 @@ class ResearchStorage:
         # Placeholder for embedding creation
         # Replace with actual embedding model
         return np.random.rand(self.dimension)
+    
+    #
