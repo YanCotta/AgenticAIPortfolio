@@ -126,4 +126,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 - **LangGraph** for the agent orchestration framework  
 - **Tavily** for research capabilities  
-- **OpenAI** for language model access  
+- **OpenAI** for language model access
