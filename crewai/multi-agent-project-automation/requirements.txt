@@ -13,3 +13,6 @@ pandas==1.5.0         # Data manipulation and analysis
 PyYAML==6.0           # YAML parsing
 pydantic==1.10.2      # Data validation via Pydantic models
 python-dotenv==1.0.0  # Environment variable management
+matplotlib==3.7.2    # Plotting library for creating visualizations
+fastapi==0.109.2      # Web framework for creating APIs
+uvicorn==0.27.0       # ASGI server for running FastAPI applications
