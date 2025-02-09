@@ -9,13 +9,39 @@ from crewai_tools import DirectoryReadTool, FileReadTool, SerperDevTool, BaseToo
 from utils import get_openai_api_key, pretty_print_result, get_serper_api_key
 from typing import Tuple
 from transformers import pipeline
+import json
 
-def create_agents() -> Tuple[Agent, Agent]:
+def create_agents(lead_profile: dict) -> Tuple[Agent, Agent]:
+    """
+    Creates and configures the sales and lead sales representative agents.
+
+    Args:
+        lead_profile (dict): A dictionary containing information about the lead,
+                             including industry, company size, and other relevant details.
+
+    Returns:
+        Tuple[Agent, Agent]: A tuple containing the sales representative agent and the lead sales representative agent.
+    """
+    # Load persona templates from personas.json
+    with open('./personas.json', 'r') as f:
+        personas = json.load(f)
+
+    # Determine persona based on lead profile
+    if lead_profile['industry'] == 'Online Learning Platform':
+        persona_type = 'technical'
+    elif lead_profile['industry'] == 'Small Business':
+        persona_type = 'friendly'
+    else:
+        persona_type = 'formal'
+
+    sales_rep_persona = personas[persona_type]['sales_rep']
+    lead_sales_rep_persona = personas[persona_type]['lead_sales_rep']
+
     sales_rep_agent = Agent(
         role="Sales Representative",
         goal="Identify high-value leads that match our ideal customer profile",
         backstory=(
-            "As a part of the dynamic sales team at CrewAI, your mission is to scour "
+            f"{sales_rep_persona} As a part of the dynamic sales team at CrewAI, your mission is to scour "
             "the digital landscape for potential leads. Armed with cutting-edge tools "
             "and a strategic mindset, you analyze data, trends, and interactions to "
             "unearth opportunities that others might overlook. Your work is crucial in "
@@ -29,7 +55,7 @@ def create_agents() -> Tuple[Agent, Agent]:
         role="Lead Sales Representative",
         goal="Nurture leads with personalized, compelling communications",
         backstory=(
-            "Within the vibrant ecosystem of CrewAI's sales department, you stand out as "
+            f"{lead_sales_rep_persona} Within the vibrant ecosystem of CrewAI's sales department, you stand out as "
             "the bridge between potential clients and the solutions they need. By creating "
             "engaging, personalized messages, you not only inform leads about our offerings "
             "but also make them feel seen and heard. Your role is pivotal in converting interest "
@@ -114,11 +140,6 @@ def create_crew(agents: Tuple[Agent, Agent], tasks: Tuple[Task, Task]) -> Crew:
     return crew
 
 def main() -> None:
-    agents = create_agents()
-    tools = create_tools()
-    tasks = create_tasks(tools, agents)
-    crew = create_crew(agents, tasks)
-    
     inputs = {
         "lead_name": "DeepLearningAI",
         "industry": "Online Learning Platform",
@@ -126,6 +147,11 @@ def main() -> None:
         "position": "CEO",
         "milestone": "product launch"
     }
+    agents = create_agents(inputs)
+    tools = create_tools()
+    tasks = create_tasks(tools, agents)
+    crew = create_crew(agents, tasks)
+    
     
     result = crew.kickoff(inputs=inputs)
     
