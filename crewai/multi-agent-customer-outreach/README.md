@@ -8,8 +8,8 @@ This system demonstrates sophisticated implementation of autonomous agents worki
 
 - Multi-agent collaboration
 - Intelligent lead qualification
-- Automated sentiment analysis
-- Personalized communication generation
+- Automated sentiment analysis using Hugging Face Transformers
+- Personalized communication generation with persona-based templates
 - Industry-specific engagement strategies
 
 ## 🏗 System Architecture
@@ -20,20 +20,22 @@ This system demonstrates sophisticated implementation of autonomous agents worki
    - Lead identification and qualification
    - Company research and profiling
    - Opportunity assessment
+   - Persona-based backstory (Formal, Friendly, Technical)
    - Tools: DirectoryReadTool, FileReadTool, SerperDevTool
 
 2. **Lead Sales Representative Agent**
    - Personalized communication crafting
-   - Sentiment analysis
+   - Sentiment analysis using AdvancedSentimentAnalysisTool
    - Engagement strategy development
-   - Tools: SentimentAnalysisTool, SerperDevTool
+   - Persona-based backstory (Formal, Friendly, Technical)
+   - Tools: AdvancedSentimentAnalysisTool, SerperDevTool
 
 ### Intelligence Tools
 
 - **DirectoryReadTool**: Processes engagement templates and guidelines
 - **FileReadTool**: Analyzes company-specific documentation
 - **SerperDevTool**: Performs web-based research
-- **SentimentAnalysisTool**: Ensures positive communication tone
+- **AdvancedSentimentAnalysisTool**: Analyzes sentiment using Hugging Face Transformers
 
 ## 🛠 Technical Stack
 
@@ -44,6 +46,7 @@ This system demonstrates sophisticated implementation of autonomous agents worki
   - crewai_tools==0.1.6
   - langchain_community==0.0.29
   - python-dotenv
+  - transformers
 - **Development Tools**:
   - mypy (type checking)
   - flake8 (code linting)
