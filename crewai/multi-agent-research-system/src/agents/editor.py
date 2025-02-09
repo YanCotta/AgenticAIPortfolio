@@ -1,6 +1,7 @@
 from crewai import Agent
 from typing import Dict, Any, Optional
 import logging
+from src.config import MAX_RESEARCH_DEPTH
 
 logger = logging.getLogger(__name__)
 
@@ -22,16 +23,22 @@ class EditorAgent:
             raise
 
     @staticmethod
-    def create_task(agent: Agent) -> Dict[str, Any]:
+    def create_task(agent: Agent, deep_investigation: bool = False) -> Dict[str, Any]:
         """Create a task configuration for the editor agent."""
+        description = (
+            "1. Review and refine the content for clarity and accuracy\n"
+            "2. Ensure consistent tone and style\n"
+            "3. Check for grammatical errors and improve readability\n"
+            "4. Verify technical accuracy and citations\n"
+            "5. Optimize content structure and flow"
+        )
+        if deep_investigation:
+            description += (
+                "\n6. Conduct a deep investigation into the topic, "
+                f"expanding the research depth to {MAX_RESEARCH_DEPTH * 2}."
+            )
         return {
-            "description": (
-                "1. Review and refine the content for clarity and accuracy\n"
-                "2. Ensure consistent tone and style\n"
-                "3. Check for grammatical errors and improve readability\n"
-                "4. Verify technical accuracy and citations\n"
-                "5. Optimize content structure and flow"
-            ),
+            "description": description,
             "expected_output": (
                 "A polished, publication-ready document with proper "
                 "formatting, clear structure, and accurate content."
