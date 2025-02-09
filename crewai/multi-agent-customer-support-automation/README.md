@@ -1,6 +1,24 @@
 # 🤖 Multi-Agent Customer Support Automation System
 
-An enterprise-grade customer support automation platform leveraging CrewAI's multi-agent architecture to deliver intelligent, accurate, and scalable customer service solutions.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![CrewAI](https://img.shields.io/badge/CrewAI-0.1.0-orange.svg)](https://github.com/joaomdmoura/crewAI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+> An enterprise-grade customer support automation platform leveraging CrewAI's multi-agent architecture to deliver intelligent, accurate, and scalable customer service solutions.
+
+## 📑 Table of Contents
+
+- [🎯 Project Overview](#-project-overview)
+- [🏗 System Architecture](#-system-architecture)
+- [🛠 Technical Stack](#-technical-stack)
+- [📦 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [💻 Usage Example](#-usage-example)
+- [🔍 Key Features](#-key-features)
+- [⚙️ Configuration](#️-configuration)
+- [🧪 Testing](#-testing)
+- [🤝 Contributing](#-contributing)
 
 ## 🎯 Project Overview
 
@@ -12,7 +30,10 @@ This system demonstrates advanced implementation of autonomous agents working in
 
 ## 🏗 System Architecture
 
-### Core Components
+<details>
+<summary>Click to expand architecture details</summary>
+
+### 🤖 Core Components
 
 1. **Support Agent**
    - Primary customer interaction
@@ -26,15 +47,19 @@ This system demonstrates advanced implementation of autonomous agents working in
    - Compliance validation
    - Communication standards enforcement
 
-### Support Tools
+### 🔧 Support Tools
 
 - **DocumentScraper**
   - Automated documentation search
   - Retry mechanism with exponential backoff
   - Error handling and logging
   - BeautifulSoup parsing
+</details>
 
 ## 🛠 Technical Stack
+
+<details>
+<summary>View complete technical stack</summary>
 
 - **Framework**: CrewAI
 - **Language**: Python 3.8+
@@ -47,8 +72,12 @@ This system demonstrates advanced implementation of autonomous agents working in
   - pytest==7.4.0
   - black==23.9.1
   - flake8==6.1.0
+</details>
 
 ## 📦 Project Structure
+
+<details>
+<summary>Explore project structure</summary>
 
 ```
 MultiAgentCustomerSupportAutomation/
@@ -64,8 +93,19 @@ MultiAgentCustomerSupportAutomation/
 ├── setup.py                    # Package configuration
 └── requirements.txt           # Dependencies
 ```
+</details>
 
-## 🚀 Installation
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8 or higher
+- OpenAI API key
+- Serper API key
+
+### Installation
+
+<details>
+<summary>Step-by-step installation guide</summary>
 
 1. Clone the repository:
 ```bash
@@ -91,8 +131,12 @@ OPENAI_API_KEY=your_openai_api_key
 SERPER_API_KEY=your_serper_api_key
 LOG_LEVEL=INFO
 ```
+</details>
 
 ## 💻 Usage Example
+
+<details>
+<summary>View usage example code</summary>
 
 ```python
 from src.main import CustomerSupportSystem
@@ -109,17 +153,18 @@ response = system.handle_inquiry(
     inquiry="How do I implement websocket connections?"
 )
 ```
+</details>
 
 ## 🔍 Key Features
 
-### Intelligent Support Automation
+### 🧠 Intelligent Support Automation
 - Natural language inquiry processing
 - Context-aware responses
 - Documentation integration
 - Automated follow-up
 - **Conversation Memory:** Implemented in `src/agents/support_agent.py` and `src/conversation_memory.py` to maintain short-term memory of recent messages, enhancing context awareness.
 
-### Quality Assurance
+### ✅ Quality Assurance
 - Response accuracy verification
 - Technical correctness validation
 - Communication standards compliance
@@ -127,14 +172,14 @@ response = system.handle_inquiry(
 - **Expanded QA Checks:** Implemented in `src/agents/qa_agent.py`, including relevance scoring and domain-specific checks for improved accuracy.
 - **User Feedback Loops:** Integrated in `src/agents/qa_agent.py` to automatically refine answers based on user feedback.
 
-### Robust Error Handling
+### 🛡️ Robust Error Handling
 - Retry mechanisms
 - Graceful degradation
 - Comprehensive logging
 - Exception management
 - **Fallback/Escalation Options:** Implemented in `src/controllers/ticket_controller.py` to route inquiries to a human operator or advanced QA pipeline if the agent cannot find an answer within a certain number of attempts or confidence level.
 
-### Configuration Management
+### ⚙️ Configuration Management
 - Environment-based settings
 - Company information customization
 - Model parameter tuning
@@ -142,14 +187,21 @@ response = system.handle_inquiry(
 
 ## 🔄 Process Flow
 
-1. Customer inquiry received
-2. Support Agent processes request
-3. Documentation searched for relevant information
-4. Response generated with citations
-5. QA Agent verifies response
-6. Validated response delivered
+```mermaid
+graph LR
+    A[Customer Inquiry] --> B[Support Agent]
+    B --> C[Documentation Search]
+    C --> D[Response Generation]
+    D --> E[QA Verification]
+    E --> F[Delivery]
+    style A fill:#f9f,stroke:#333
+    style F fill:#9f9,stroke:#333
+```
 
 ## 📊 Response Format
+
+<details>
+<summary>View response structure</summary>
 
 ```python
 {
@@ -166,27 +218,24 @@ response = system.handle_inquiry(
     }
 }
 ```
+</details>
 
 ## 🚀 Production Considerations
+
+<details>
+<summary>View production checklist</summary>
 
 - Implement rate limiting
 - Add response caching
 - Set up monitoring
 - Configure error alerts
 - Implement backup systems
-
-## 🔬 Development Features
-
-This project demonstrates expertise in:
-- Multi-agent system architecture
-- Natural Language Processing
-- Error handling and reliability
-- API integration
-- Testing and quality assurance
-- Configuration management
-- Documentation integration
+</details>
 
 ## ⚙️ Configuration
+
+<details>
+<summary>View configuration options</summary>
 
 ### Agent Configuration
 ```python
@@ -205,8 +254,12 @@ COMPANY_INFO = {
     "support_email": "support@yourcompany.com"
 }
 ```
+</details>
 
 ## 🧪 Testing
+
+<details>
+<summary>View testing commands</summary>
 
 ```bash
 # Run tests
@@ -218,14 +271,18 @@ black .
 # Check style
 flake8
 ```
+</details>
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Implement changes with tests
-4. Submit a pull request
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ## 📝 License
 
 This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ using CrewAI</sub>
+</div>
