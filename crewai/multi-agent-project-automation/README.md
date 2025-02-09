@@ -1,6 +1,31 @@
+<div align="center">
+
 # 🤖 Multi-Agent Project Automation System
 
-An advanced project management automation platform leveraging CrewAI's multi-agent architecture to deliver intelligent project planning, estimation, and resource allocation through collaborative AI agents.
+[![Python 3.9.6](https://img.shields.io/badge/Python-3.9.6-blue.svg)](https://www.python.org/downloads/release/python-396/)
+[![CrewAI](https://img.shields.io/badge/CrewAI-0.75-green.svg)](https://github.com/joaomdmoura/crewAI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+*An advanced project management automation platform leveraging CrewAI's multi-agent architecture for intelligent project planning.*
+
+[Features](#-key-features) • [Installation](#-installation) • [Usage](#-usage-example) • [Documentation](#-technical-stack) • [Contributing](#-contributing)
+
+</div>
+
+---
+
+## 📑 Table of Contents
+- [Project Overview](#-project-overview)
+- [System Architecture](#-system-architecture)
+- [Technical Stack](#-technical-stack)
+- [Installation](#-installation)
+- [Usage Example](#-usage-example)
+- [Key Features](#-key-features)
+- [Process Flow](#-process-flow)
+- [Configuration](#️-configuration)
+- [Development Features](#-development-features)
+- [Testing](#-testing)
+- [Contributing](#-contributing)
 
 ## 🎯 Project Overview
 
@@ -12,7 +37,8 @@ This system demonstrates sophisticated implementation of autonomous agents worki
 
 ## 🏗 System Architecture
 
-### Core Agents
+<details>
+<summary><strong>Core Agents</strong></summary>
 
 1. **Project Planning Agent**
    - Task breakdown and organization
@@ -38,7 +64,10 @@ This system demonstrates sophisticated implementation of autonomous agents worki
     - Gantt chart integration
     - Critical path analysis
 
-### Data Models
+</details>
+
+<details>
+<summary><strong>Data Models</strong></summary>
 
 - **TaskEstimate**
   ```python
@@ -62,32 +91,50 @@ This system demonstrates sophisticated implementation of autonomous agents worki
       milestones: List[Milestone]
   ```
 
+</details>
+
 ## 🛠 Technical Stack
 
-- **Framework**: CrewAI v0.75
-- **Language**: Python 3.9.6
-- **Key Dependencies**:
-  - crewai_tools==0.12.1
-  - pandas==1.5.0
-  - pydantic==1.10.2
-  - PyYAML==6.0
+<table>
+<tr>
+<td>
+
+**Core Framework**
+- CrewAI v0.75
+- Python 3.9.6
+
+</td>
+<td>
+
+**Dependencies**
+- crewai_tools==0.12.1
+- pandas==1.5.0
+- pydantic==1.10.2
+- PyYAML==6.0
+
+</td>
+</tr>
+</table>
 
 ## 📦 Project Structure
 
-```
+```plaintext
 MultiAgentProjectAutomation/
-├── src/
-│   ├── agents.py         # Agent definitions and crew assembly
-│   ├── main.py          # Application entry point
-│   ├── models.py        # Pydantic data models
-│   └── helper.py        # Utility functions
-├── config/
-│   ├── agents.yaml      # Agent configurations
-│   └── tasks.yaml       # Task definitions
-└── requirements.txt     # Dependencies
+├── 📁 src/
+│   ├── 📜 agents.py         # Agent definitions and crew assembly
+│   ├── 📜 main.py          # Application entry point
+│   ├── 📜 models.py        # Pydantic data models
+│   └── 📜 helper.py        # Utility functions
+├── 📁 config/
+│   ├── 📜 agents.yaml      # Agent configurations
+│   └── 📜 tasks.yaml       # Task definitions
+└── 📜 requirements.txt     # Dependencies
 ```
 
 ## 🚀 Installation
+
+<details>
+<summary><strong>Step-by-step guide</strong></summary>
 
 1. Clone the repository:
 
@@ -108,7 +155,12 @@ pip install -r requirements.txt
 OPENAI_API_KEY=your_openai_api_key
 ```
 
+</details>
+
 ## 💻 Usage Example
+
+<details>
+<summary><strong>Sample implementation</strong></summary>
 
 ```python
 from src.main import run_project_planning, format_project_inputs
@@ -137,35 +189,58 @@ result, metrics = run_project_planning(project_inputs)
 print(f"Cost: ${metrics.total_cost:.2f}")
 ```
 
+</details>
+
 ## 🔍 Key Features
 
-### Intelligent Project Planning
+<table>
+<tr>
+<td>
+
+### 🧠 Intelligent Project Planning
 - Task dependency analysis
 - Timeline optimization
 - Risk identification
 - Milestone creation
 
-### Data-Driven Estimation
+</td>
+<td>
+
+### 📊 Data-Driven Estimation
 - Historical data analysis
 - Resource requirement calculation
 - Risk-adjusted estimates
 - Confidence scoring
 
-### Smart Resource Allocation
+</td>
+</tr>
+<tr>
+<td>
+
+### 👥 Smart Resource Allocation
 - Skill-based matching
 - Workload balancing
 - Capacity optimization
 - Team composition analysis
 
-## 🔄 Process Flow
+</td>
+<td>
 
+### 📈 Process Flow
 1. Project requirements analysis
 2. Task breakdown and organization
 3. Time and resource estimation
 4. Team member allocation
 5. Plan validation and optimization
 
+</td>
+</tr>
+</table>
+
 ## 📊 Output Format
+
+<details>
+<summary><strong>JSON Structure</strong></summary>
 
 ```python
 {
@@ -187,7 +262,12 @@ print(f"Cost: ${metrics.total_cost:.2f}")
 }
 ```
 
+</details>
+
 ## ⚙️ Configuration
+
+<details>
+<summary><strong>Configuration Details</strong></summary>
 
 ### Agent Configuration
 ```yaml
@@ -203,15 +283,35 @@ task_breakdown:
   expected_output: "Comprehensive task list..."
 ```
 
+</details>
+
 ## 🚀 Production Considerations
 
+<table>
+<tr>
+<td>
+
+### 🔧 System Setup
 - Implement rate limiting
 - Add result caching
 - Set up monitoring
+
+</td>
+<td>
+
+### 🛡 Security & Reliability
 - Configure error handling
 - Implement backup strategies
+- Regular security audits
+
+</td>
+</tr>
+</table>
 
 ## 🔬 Development Features
+
+<details>
+<summary><strong>Technical Highlights</strong></summary>
 
 This project demonstrates expertise in:
 - Multi-agent system architecture
@@ -221,7 +321,12 @@ This project demonstrates expertise in:
 - Error handling
 - Process optimization
 
+</details>
+
 ## 🧪 Testing
+
+<details>
+<summary><strong>Testing Commands</strong></summary>
 
 ```bash
 # Run tests
@@ -234,13 +339,25 @@ mypy src/
 flake8 src/
 ```
 
+</details>
+
 ## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch
 3. Implement changes with tests
 4. Submit a pull request
 
+---
+
+<div align="center">
+
 ## 📝 License
 
 This project is licensed under the MIT License.
+
+Built with ❤️ using [CrewAI](https://github.com/joaomdmoura/crewAI)
+
+</div>
