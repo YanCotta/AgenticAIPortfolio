@@ -11,6 +11,7 @@ This project demonstrates the implementation of a sophisticated multi-agent syst
    - Code Writer Agent: Generates and optimizes analysis code
    - **Analysis Agent: Performs advanced stock analysis using plugins**
    - Both agents communicate via AutoGen's conversation protocols
+   - **Scheduler: Automates periodic analysis and report generation**
 
 2. **Key Modules**
    - `stock_analysis.py`: Core financial data processing and visualization
@@ -115,10 +116,16 @@ MultiAgentFinancialAnalysis/
    python -m MultiAgentFinancialAnalysis.main
    ```
 
-2. **Output**
+2. **Scheduled Usage**
+   ```bash
+   python -m MultiAgentFinancialAnalysis.scheduler
+   ```
+
+3. **Output**
    - Generates two visualization files:
      - `ytd_stock_gains.png`: Year-to-Date gains comparison
      - `stock_prices_YTD_plot.png`: Price trend analysis
+   - **Reports are saved to the `reports/` directory with timestamps**
 
 ## Testing
 
@@ -152,6 +159,7 @@ Logs are:
 - Enhanced visualization options
 - **Expanded plugin ecosystem for the AnalysisAgent**
 - Enhanced security through improved containerization
+- **Configurable scheduling intervals**
 
 ## License
 MIT license.
