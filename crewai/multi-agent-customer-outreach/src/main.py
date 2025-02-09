@@ -8,6 +8,7 @@ from crewai import Agent, Task, Crew
 from crewai_tools import DirectoryReadTool, FileReadTool, SerperDevTool, BaseTool
 from utils import get_openai_api_key, pretty_print_result, get_serper_api_key
 from typing import Tuple
+from transformers import pipeline
 
 def create_agents() -> Tuple[Agent, Agent]:
     sales_rep_agent = Agent(
@@ -45,15 +46,18 @@ def create_tools() -> Tuple[BaseTool, BaseTool, BaseTool, BaseTool]:
     file_read_tool = FileReadTool()
     search_tool = SerperDevTool()
     
-    class SentimentAnalysisTool(BaseTool):
-        name: str = "Sentiment Analysis Tool"
-        description: str = "Analyzes the sentiment of text to ensure positive and engaging communication."
+    class AdvancedSentimentAnalysisTool(BaseTool):
+        name: str = "Advanced Sentiment Analysis Tool"
+        description: str = "Analyzes the sentiment of text using advanced NLP techniques to ensure positive and engaging communication in B2B scenarios."
         
+        def __init__(self):
+            self.sentiment_pipeline = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+
         def _run(self, text: str) -> str:
-            # Your custom code tool goes here
-            return "positive"
+            result = self.sentiment_pipeline(text)[0]
+            return result['label']
     
-    sentiment_analysis_tool = SentimentAnalysisTool()
+    sentiment_analysis_tool = AdvancedSentimentAnalysisTool()
     return directory_read_tool, file_read_tool, search_tool, sentiment_analysis_tool
 
 def create_tasks(
