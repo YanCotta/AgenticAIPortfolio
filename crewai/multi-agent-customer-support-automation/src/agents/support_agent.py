@@ -1,12 +1,14 @@
 from crewai import Agent
 from ..config.settings import OPENAI_MODEL
 from ..utils.logger import setup_logger
+from ..conversation_memory import ConversationMemory
 
 logger = setup_logger(__name__)
 
 class SupportAgent:
     def __init__(self, company_info):
         self.company_info = company_info
+        self.memory = ConversationMemory()
         
     def create(self) -> Agent:
         try:
@@ -16,7 +18,8 @@ class SupportAgent:
                 backstory=self._generate_backstory(),
                 allow_delegation=True,
                 verbose=True,
-                llm=OPENAI_MODEL
+                llm=OPENAI_MODEL,
+                memory=True,
             )
         except Exception as e:
             logger.error(f"Error creating support agent: {str(e)}")
@@ -33,4 +36,6 @@ class SupportAgent:
         
         You have access to our documentation at {self.company_info['docs_url']}
         and maintain our company's reputation for excellent support.
+        
+        Here's a summary of recent conversation history: {self.memory.get_history()}
         """
