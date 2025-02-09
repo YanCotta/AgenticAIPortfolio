@@ -7,7 +7,7 @@ This project demonstrates the implementation of a sophisticated multi-agent syst
 
 ### Core Components
 1. **Multi-Agent System**
-   - Code Executor Agent: Handles code execution and environment interactions
+   - Code Executor Agent: Handles code execution and environment interactions **(Dockerized)**
    - Code Writer Agent: Generates and optimizes analysis code
    - Both agents communicate via AutoGen's conversation protocols
 
@@ -91,7 +91,7 @@ MultiAgentFinancialAnalysis/
 
 ### Agent Configuration
 - Utilizes AutoGen's ConversableAgent and AssistantAgent
-- Custom code executor configuration for secure code execution
+- Custom code executor configuration for secure code execution **using Docker**
 - Robust error handling and logging
 
 ### Financial Analysis Features
@@ -148,6 +148,7 @@ Logs are:
 - Portfolio optimization features
 - Real-time market alerts
 - Enhanced visualization options
+- **Enhanced security through improved containerization**
 
 ## License
 MIT license.

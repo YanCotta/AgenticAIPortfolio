@@ -7,6 +7,7 @@ from autogen import ConversableAgent, AssistantAgent
 from autogen.coding import LocalCommandLineCodeExecutor
 from MultiAgentFinancialAnalysis.utils import get_openai_api_key
 from MultiAgentFinancialAnalysis.logger import get_logger, configure_logger
+from MultiAgentFinancialAnalysis.src.execution.code_executor import DockerCodeExecutor
 
 logger = get_logger(__name__)
 
@@ -40,7 +41,7 @@ def configure_code_executor(work_dir=settings.work_dir, timeout=settings.timeout
     """Configures the code executor with specified working directory, timeout, and functions."""
     if functions is None:
         functions = []
-    executor = LocalCommandLineCodeExecutor(
+    executor = DockerCodeExecutor(
         timeout=timeout,
         work_dir=work_dir,
         functions=functions,
