@@ -2,6 +2,7 @@ import os
 import warnings
 import textwrap
 import logging
+import asyncio
 from IPython.display import display, Markdown
 from helper import load_env
 from agents import create_agents, create_tasks, create_crew
@@ -50,7 +51,7 @@ def display_social_posts(result):
 def display_blog_post(result):
     display(Markdown(result.pydantic.dict()['article']))
 
-def main():
+async def amain():
     try:
         # Setup
         groq_llm = setup_environment()
@@ -63,21 +64,23 @@ def main():
         
         # Create and execute crew
         crew = create_crew(agents, tasks)
-        result = crew.kickoff(inputs={
-            'subject': 'Inflation in the US and the impact on the stock market in 2024'
-        })
+        results = await crew.run_crew(subject='Inflation in the US and the impact on the stock market in 2024')
         
         # Validate and display results
-        if validate_result(result):
-            display_social_posts(result)
-            display_blog_post(result)
-            logger.info("Content generation completed successfully")
-        else:
-            logger.error("Content generation failed validation")
+        for result in results:
+            if result and validate_result(result):
+                display_social_posts(result)
+                display_blog_post(result)
+                logger.info("Content generation completed successfully")
+            else:
+                logger.error("Content generation failed validation")
             
     except Exception as e:
         logger.error(f"Main execution failed: {str(e)}")
         raise
+
+def main():
+    asyncio.run(amain())
 
 if __name__ == "__main__":
     main()
