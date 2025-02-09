@@ -1,18 +1,28 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from ..models.schema import AgentState
 from ..utils.logging import get_logger
+import yaml
+import os
 
 logger = get_logger(__name__)
 
 class WriterAgent(BaseAgent):
-    def __init__(self, settings, model):
+    def __init__(self, settings, model, style="default"):
         self.model = model
-        self.WRITER_PROMPT = ("You are an essay assistant tasked with writing excellent 3 paragraph essays. "
-                              "Generate the best essay possible for the user's request and the initial outline. "
-                              "If the user provides critique, respond with a revised version of your previous attempts. "
-                              "Utilize all the information below as needed: \n"
-                              "------\n"
-                              "{content}")
+        self.style = style
+        self.WRITER_PROMPT = self._load_prompt(style)
+
+    def _load_prompt(self, style: str) -> str:
+        """Load the prompt from the styles.yaml file based on the given style."""
+        styles_file = os.path.join(os.path.dirname(__file__), 'styles.yaml')
+        with open(styles_file, 'r') as f:
+            styles = yaml.safe_load(f)
+        
+        if style in styles:
+            return styles[style]['prompt']
+        else:
+            # Default prompt if the style is not found
+            return styles['default']['prompt']
 
     async def execute(self, state: AgentState) -> dict:
         try:
