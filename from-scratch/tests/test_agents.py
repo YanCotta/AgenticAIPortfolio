@@ -3,11 +3,14 @@ import time
 import random
 import string
 import pytest
+from unittest.mock import patch, AsyncMock
 
 # Import agents and orchestrator components
 from agents.summarizer_agent import SummarizerAgent
 from agents.email_agent import EmailAgent
 from orchestrator.task_manager import TaskManager
+from agents.doc_ingest_agent import DocumentIngestionAgent
+from agents.task_router_agent import TaskRouterAgent
 
 # Dummy ingestion agent for integration tests
 class DummyIngestionAgent:
@@ -22,6 +25,18 @@ def generate_test_data(num_chars=100):
     text = ''.join(random.choices(string.ascii_letters + " ", k=num_chars))
     metadata = {"file_name": "test.txt", "recipient": "test@example.com"}
     return {"text": text, "metadata": metadata}
+
+# Unit test: DocumentIngestionAgent
+def test_doc_ingest_agent():
+    agent = DocumentIngestionAgent()
+    result = agent.process("tests/sample.txt")
+    assert "text" in result and "metadata" in result, "Document ingestion failed"
+
+# Unit test: TaskRouterAgent
+def test_task_router_agent():
+    agent = TaskRouterAgent()
+    result = agent.process("tests/sample.txt")
+    assert "document" in result and "summary" in result, "Task routing failed"
 
 # Integration test: Run end-to-end pipeline using a dummy ingestion agent
 @pytest.mark.asyncio
@@ -74,5 +89,15 @@ def test_email_agent():
     result = agent.process(test_data)
     assert "subject" in result and "body" in result, "Email agent output is incomplete"
 
+# Mocking external API calls for deterministic tests
+@pytest.mark.asyncio
+async def test_summarizer_with_mock(monkeypatch):
+    agent = SummarizerAgent()
+    mock_response = AsyncMock()
+    mock_response.choices[0].message.content = "Mocked summary"
+    monkeypatch.setattr("openai.ChatCompletion.acreate", mock_response)
+    test_input = generate_test_data()
+    result = await agent.process(test_input)
+    assert result["summary"] == "Mocked summary", "Mocking failed"
 
 # ...additional tests and mock services as needed...
