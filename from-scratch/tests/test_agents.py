@@ -29,6 +29,7 @@ def generate_test_data(num_chars=100):
 # Unit test: DocumentIngestionAgent
 def test_doc_ingest_agent():
     agent = DocumentIngestionAgent()
+    # Point to the correct path
     result = agent.process("tests/sample.txt")
     assert "text" in result and "metadata" in result, "Document ingestion failed"
 
