@@ -1,61 +1,81 @@
+from typing import Optional, Dict, Any
 import os
+from pydantic import BaseModel, Field
+from functools import lru_cache
+import json
+from pathlib import Path
+
+class AppConfig(BaseModel):
+    """Application configuration with validation"""
+    version: str = Field(default="1.0.0", description="Configuration version")
+    openai_api_key: str = Field(default=..., description="OpenAI API key")
+    database_url: str = Field(default="sqlite:///default.db", description="Database connection URL")
+    debug: bool = Field(default=False, description="Debug mode flag")
+    secret_manager: str = Field(default="local", description="Secret management strategy")
+    log_level: str = Field(default="INFO", description="Logging level")
+    max_retries: int = Field(default=3, description="Maximum retry attempts")
+    timeout: int = Field(default=30, description="Operation timeout in seconds")
 
 class Config:
-    """
-    Configuration class for application settings.
-    
-    Features:
-    - Environment-based config loading.
-    - Configuration validation.
-    - Secrets management via environment variables.
-    - Configuration versioning.
-    - Hot reload capability.
-    - Default fallbacks.
-    
-    Attributes:
-        version (str): Version of the configuration.
-        OPENAI_API_KEY (str): API key for OpenAI.
-        DATABASE_URL (str): Database connection URL.
-        DEBUG (bool): Debug mode flag.
-        SECRET_MANAGER (str): Identifier for secrets management strategy.
-    """
+    """Configuration manager with hot reload and validation"""
     def __init__(self):
-        # Load config and assign version
-        self.load_config()
-        self.version = "1.0.0"
+        self._config: Optional[AppConfig] = None
+        self._load_config()
 
-    def load_config(self):
-        # Environment-based loading with default fallbacks
-        self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "default-openai-api-key")
-        self.DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///default.db")
-        self.DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
-        self.SECRET_MANAGER = os.getenv("SECRET_MANAGER", "local")
-        # ...additional config values...
+    @lru_cache()
+    def _load_env_file(self) -> Dict[str, str]:
+        """Load environment variables from .env file"""
+        env_path = Path(".env")
+        if env_path.exists():
+            with env_path.open() as f:
+                return dict(line.strip().split('=', 1) for line in f if line.strip() and not line.startswith('#'))
+        return {}
 
-    def validate(self):
-        # Validate required configurations are properly set
-        errors = []
-        if self.OPENAI_API_KEY == "default-openai-api-key":
-            errors.append("OPENAI_API_KEY is not set properly.")
-        if not self.DATABASE_URL:
-            errors.append("DATABASE_URL is missing.")
-        # ...add additional validations as required...
-        if errors:
-            raise ValueError("Configuration validation errors: " + "; ".join(errors))
-        return True
+    def _load_config(self) -> None:
+        """Load and validate configuration"""
+        env_vars = self._load_env_file()
+        for key, value in env_vars.items():
+            os.environ.setdefault(key, value)
 
-    def reload(self):
-        # Hot reload the configuration from environment variables
-        self.load_config()
-        print("Configuration reloaded.")
+        self._config = AppConfig(
+            openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+            database_url=os.getenv("DATABASE_URL", "sqlite:///default.db"),
+            debug=os.getenv("DEBUG", "False").lower() in ("true", "1", "yes"),
+            secret_manager=os.getenv("SECRET_MANAGER", "local"),
+            log_level=os.getenv("LOG_LEVEL", "INFO"),
+            max_retries=int(os.getenv("MAX_RETRIES", "3")),
+            timeout=int(os.getenv("TIMEOUT", "30"))
+        )
 
-    def to_dict(self):
-        # Return current configuration as a dictionary
-        return {
-            "version": self.version,
-            "OPENAI_API_KEY": self.OPENAI_API_KEY,
-            "DATABASE_URL": self.DATABASE_URL,
-            "DEBUG": self.DEBUG,
-            "SECRET_MANAGER": self.SECRET_MANAGER,
-        }
+    def reload(self) -> None:
+        """Hot reload configuration"""
+        self._load_env_file.cache_clear()
+        self._load_config()
+
+    def get(self, key: str) -> Any:
+        """Get configuration value by key"""
+        if not self._config:
+            self._load_config()
+        return getattr(self._config, key)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Export configuration as dictionary"""
+        if not self._config:
+            self._load_config()
+        return self._config.model_dump()
+
+    def validate(self) -> bool:
+        """Validate configuration"""
+        try:
+            if not self._config:
+                self._load_config()
+            self._config.model_dump()
+            if not self._config.openai_api_key:
+                raise ValueError("OPENAI_API_KEY is required")
+            return True
+        except Exception as e:
+            raise ValueError(f"Configuration validation failed: {str(e)}")
+
+# Global config instance
+config = Config()
 
