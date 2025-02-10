@@ -18,16 +18,6 @@ class SummarizerAgent(BaseAgent):
         if text in self.cache:
             return self.cache[text]
 
-        # Content moderation check
-        try:
-            mod_response = await openai.Moderation.acreate(input=text, api_key=self.config.api_key)
-            if mod_response.get("results", [{}])[0].get("flagged", False):
-                self.logger.error("Content flagged by moderation.")
-                return None
-        except Exception as e:
-            self.logger.error(f"Moderation error: {str(e)}")
-            return None
-
         # Define models - primary first, then fallback
         models = ["gpt-4", "gpt-3.5-turbo"]
         summary = None
