@@ -1,0 +1,3 @@
+This is a sample text file used for testing document ingestion.
+It contains multiple lines of text to ensure proper processing.
+The DocumentIngestionAgent should be able to read and process this content.
