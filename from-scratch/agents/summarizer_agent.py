@@ -11,6 +11,7 @@ class SummarizerAgent(BaseAgent):
         super().__init__("SummarizerAgent")
         self.config = OpenAIConfig()
         self.cache = {}
+        self.client = openai.OpenAI(api_key=self.config.api_key)
     
     async def process(self, data):
         text = data["text"]
@@ -27,17 +28,16 @@ class SummarizerAgent(BaseAgent):
             retries = 3
             for attempt in range(retries):
                 try:
-                    response = await openai.ChatCompletion.acreate(
+                    response = await self.client.chat.completions.create(
                         model=model,
                         messages=[
                             {"role": "system", "content": "Summarize the following document."},
                             {"role": "user", "content": text}
-                        ],
-                        api_key=self.config.api_key
+                        ]
                     )
-                    summary = response["choices"][0]["message"]["content"]
+                    summary = response.choices[0].message.content
                     # Token counting and cost tracking (if usage data available)
-                    tokens = response.get("usage", {}).get("total_tokens", 0)
+                    tokens = response.usage.total_tokens if hasattr(response, 'usage') else 0
                     cost = tokens * self.config.cost_rate
                     # Simple summary quality validation: require more than 5 words
                     if len(summary.split()) < 5:
