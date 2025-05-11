@@ -27,6 +27,7 @@ A comprehensive showcase of Multi-Agent AI Systems expertise demonstrating produ
 - Comprehensive Testing Suite
 - Advanced Error Handling
 - Scalable Design Patterns
+- Real-time Voice AI Integration
 
 ### 🔄 CrewAI Projects
 
@@ -121,6 +122,25 @@ A comprehensive showcase of Multi-Agent AI Systems expertise demonstrating produ
   - Dockerized code execution
   - Plugin-based AnalysisAgent
   - Automated periodic analysis
+</details>
+
+### 🎙️ Voice Agent Implementation
+
+<details>
+<summary><b>VoiceAgent</b></summary>
+
+- Advanced real-time voice interaction system
+- Features:
+  - Real-time voice communication
+  - Multiple voice personalities
+  - Performance metrics & analytics
+  - Multi-language support
+  - Low-latency optimization
+- Tech Stack:
+  - LiveKit Agents
+  - OpenAI GPT-4 & Whisper
+  - ElevenLabs TTS
+  - Silero VAD
 </details>
 
 ### 🔧 From Scratch Implementation
@@ -232,6 +252,7 @@ pytest tests/
 | MultiAgentResearchSystem | CrewAI | ⭐⭐⭐ | Research Automation, FAISS Vector DB | Content Creation |
 | AgenticEssayWriter | LangGraph | ⭐⭐⭐ | Essay Generation | Content Creation |
 | FinancialAnalysisAndCoding | AutoGen | ⭐⭐⭐ | Market Analysis, Dockerized Execution | Financial Services |
+| VoiceAgent | LiveKit | ⭐⭐⭐⭐ | Real-time Voice AI, Performance Analytics | Voice Interaction |
 | FromScratchProject | None | ⭐ | Basic Structure | Custom Development |
 
 ## 🤝 Contributing
